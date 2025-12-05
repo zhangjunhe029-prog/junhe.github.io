@@ -6,15 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg1: #2b0000;
-      --bg2: #000000;
-      --bg3: #4d0f0f;
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --border-soft: rgba(255, 255, 255, 0.15);
-      --text-main: #ffffff;
-      --text-sub: #d1d1d1;
-      --accent: #e63946;
-      --accent-strong: #ff4d4d;
+      --bg1: #1a0003;
+      --bg2: #050509;
+      --bg3: #3b0008;
+      --card-bg: rgba(15, 15, 20, 0.9);
+      --border-soft: rgba(255, 90, 90, 0.4);
+      --text-main: #f9fafb;
+      --text-sub: #9ca3af;
+      --accent: #ff4d4d;
+      --accent-strong: #ff6b6b;
+      --accent-soft: #7f1d1d;
     }
 
     * {
@@ -26,178 +27,295 @@
 
     html {
       scroll-behavior: smooth;
+      background: #050509;
     }
 
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-      background-size: 200% 200%;
-      animation: gradientMove 18s ease infinite;
+      background: radial-gradient(circle at top left, #400010 0, transparent 55%),
+                  radial-gradient(circle at bottom right, #220010 0, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      background-size: 180% 180%;
+      animation: backgroundMove 22s ease-in-out infinite;
       color: var(--text-main);
     }
 
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    @keyframes backgroundMove {
+      0%   { background-position: 0% 0%, 100% 100%, 0% 50%; }
+      50%  { background-position: 50% 30%, 50% 70%, 100% 50%; }
+      100% { background-position: 0% 0%, 100% 100%, 0% 50%; }
     }
 
     header {
       position: sticky;
       top: 0;
       z-index: 20;
-      backdrop-filter: blur(12px);
-      background: rgba(0, 0, 0, 0.65);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(5,5,10,0.95), rgba(5,5,10,0.8));
+      border-bottom: 1px solid rgba(255,255,255,0.07);
     }
 
     .nav {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 1rem;
+      padding: 0.9rem 1.2rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
 
     .nav-left {
       font-weight: 700;
-      letter-spacing: 0.05em;
-      color: var(--accent);
+      letter-spacing: 0.12em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      text-shadow: 0 0 8px rgba(255,77,77,0.7);
     }
 
     .nav-right a {
       margin-left: 1.2rem;
+      font-size: 0.9rem;
       text-decoration: none;
       color: var(--text-sub);
+      position: relative;
       transition: 0.2s;
-      font-size: 0.92rem;
+    }
+
+    .nav-right a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.15rem;
+      width: 0;
+      height: 1px;
+      background: var(--accent-strong);
+      transition: width 0.2s ease;
     }
 
     .nav-right a:hover {
       color: var(--accent-strong);
     }
 
+    .nav-right a:hover::after {
+      width: 100%;
+    }
+
     main {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 2.5rem 1.2rem 4rem;
+      padding: 2.4rem 1.2rem 3.5rem;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    /* Scroll 动画基础状态 */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* HERO */
     .hero {
       display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 2rem;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 2.2rem;
       align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      background: rgba(17, 17, 22, 0.8);
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-bottom: 0.9rem;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #f97373;
+      box-shadow: 0 0 10px #fb7185;
+      margin-right: 0.45rem;
     }
 
     h1 {
       font-size: 2.6rem;
+      margin-bottom: 0.5rem;
       font-weight: 700;
-      margin-bottom: 0.6rem;
-      color: var(--accent-strong);
+      background: linear-gradient(120deg, #ffffff, #ffb3b3, #ff4d4d);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px rgba(248, 113, 113, 0.7);
     }
 
     .hero-subname {
-      font-size: 1.1rem;
+      font-size: 1.02rem;
       color: var(--text-sub);
       margin-bottom: 1.5rem;
     }
 
     .hero-text {
-      color: var(--text-sub);
-      font-size: 1rem;
-      margin-bottom: 1rem;
+      font-size: 0.98rem;
       line-height: 1.7;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.8rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-soft);
-      border-radius: 999px;
-      font-size: 0.75rem;
-      margin-bottom: 1rem;
       color: var(--text-sub);
+      margin-bottom: 1rem;
     }
 
-    /* BUTTONS */
-    .hero-actions {
-      margin-top: 1.2rem;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      padding: 0.6rem 1.5rem;
-      border-radius: 30px;
-      background: linear-gradient(135deg, #ff3333, #b30000);
-      border: none;
-      text-decoration: none;
-      color: white;
+    .hero-highlight {
+      color: var(--accent-strong);
       font-weight: 600;
-      transition: 0.2s;
-      box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    /* 发光按钮 */
+    .btn-primary {
+      padding: 0.65rem 1.6rem;
+      border-radius: 999px;
+      border: none;
+      background: radial-gradient(circle at 20% 0%, #ffb3b3 0, transparent 50%),
+                  linear-gradient(135deg, #ff4040, #b30000);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 0 16px rgba(255, 77, 77, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      animation: glowPulse 2.3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%   { box-shadow: 0 0 14px rgba(255,77,77,0.7); }
+      50%  { box-shadow: 0 0 26px rgba(255,77,77,1); }
+      100% { box-shadow: 0 0 14px rgba(255,77,77,0.7); }
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(255, 0, 0, 0.45);
+      filter: brightness(1.08);
     }
 
     .btn-ghost {
-      padding: 0.55rem 1.3rem;
-      border-radius: 30px;
-      border: 1px solid var(--accent);
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(249, 168, 212, 0.4);
+      background: rgba(15, 15, 20, 0.85);
+      color: #e5e7eb;
       text-decoration: none;
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
-      transition: 0.2s;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: 0.2s ease;
     }
 
     .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.18);
-      border-color: var(--accent-strong);
+      border-color: rgba(255, 255, 255, 0.7);
+      background: rgba(31, 31, 42, 0.95);
     }
 
     .card {
       background: var(--card-bg);
-      padding: 1.6rem;
-      border-radius: 1rem;
+      border-radius: 1.2rem;
+      padding: 1.5rem 1.6rem;
       border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.7);
     }
 
-    /* Section cards */
+    .card-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #fca5a5;
+      margin-bottom: 0.8rem;
+    }
+
+    .card-row {
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-sub);
+    }
+
+    .card-row strong {
+      color: #fcd5d5;
+      margin-right: 0.3rem;
+    }
+
     .section-card {
       background: var(--card-bg);
-      border-radius: 1rem;
-      padding: 1.65rem;
-      margin-bottom: 2.8rem;
+      border-radius: 1.1rem;
+      padding: 1.7rem 1.6rem;
       border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.7);
     }
 
     .section-title {
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.45rem;
       margin-bottom: 0.6rem;
-      color: var(--accent-strong);
+      color: #fecaca;
+      text-shadow: 0 0 12px rgba(239, 68, 68, 0.9);
     }
 
     .section-subtitle {
-      font-size: 0.96rem;
+      font-size: 0.95rem;
       color: var(--text-sub);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.3rem;
     }
 
     .two-column {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.6rem;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap: 1.7rem;
+    }
+
+    .edu-item {
+      margin-bottom: 1.1rem;
+    }
+
+    .edu-title {
+      font-weight: 600;
+      font-size: 1.02rem;
+      color: #fee2e2;
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-meta {
+      font-size: 0.92rem;
+      color: var(--text-sub);
+      margin-bottom: 0.15rem;
+    }
+
+    .edu-tag {
+      display: inline-block;
+      margin-top: 0.2rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: rgba(127, 29, 29, 0.9);
+      color: #fecaca;
     }
 
     ul {
@@ -205,10 +323,11 @@
     }
 
     .list-dot li {
+      position: relative;
       padding-left: 1.1rem;
       margin-bottom: 0.7rem;
       color: var(--text-sub);
-      position: relative;
+      font-size: 0.94rem;
       line-height: 1.6;
     }
 
@@ -219,34 +338,54 @@
       top: 0.55rem;
       width: 6px;
       height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
+      border-radius: 999px;
+      background: var(--accent-strong);
+      box-shadow: 0 0 10px rgba(248,113,113,0.9);
     }
 
-    /* Contact */
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.4rem;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 1.6rem;
+    }
+
+    .contact-line {
+      margin-bottom: 0.55rem;
+      font-size: 0.95rem;
+      color: var(--text-sub);
     }
 
     .contact-label {
       font-weight: 600;
-      color: var(--accent);
+      color: #fecaca;
+      margin-right: 0.35rem;
+    }
+
+    a {
+      color: #fca5a5;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     footer {
       text-align: center;
+      font-size: 0.8rem;
       color: var(--text-sub);
       margin-top: 2rem;
-      font-size: 0.85rem;
     }
 
     @media (max-width: 880px) {
-      .hero, .two-column, .contact-grid {
-        grid-template-columns: 1fr;
+      .hero,
+      .two-column,
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
       }
-
+      main {
+        padding-top: 1.8rem;
+      }
       h1 {
         font-size: 2.1rem;
       }
@@ -255,15 +394,14 @@
 </head>
 
 <body>
-
 <header>
   <nav class="nav">
     <div class="nav-left">JUNHE ZHANG</div>
     <div class="nav-right">
-      <a href="#about">About</a>
-      <a href="#journey">Academic</a>
-      <a href="#work">Work</a>
-      <a href="#contact">Contact</a>
+      <a href=" ">About</a >
+      <a href="#journey">Academic</a >
+      <a href="#work">Work</a >
+      <a href="#contact">Contact</a >
     </div>
   </nav>
 </header>
@@ -271,10 +409,13 @@
 <main>
 
   <!-- HERO -->
-  <section>
+  <section class="animate-on-scroll">
     <div class="hero">
       <div>
-        <div class="badge">Director · Energy · Cross-border Collaboration</div>
+        <div class="badge">
+          <div class="badge-dot"></div>
+          Director · Energy · Cross-border Collaboration
+        </div>
 
         <h1>Junhe Zhang · 장준혁 · 张峻赫</h1>
 
@@ -283,80 +424,90 @@
         </div>
 
         <p class="hero-text">
-          I work as a Director coordinating cross-border collaboration between Korea and China,
-          focusing on communication, execution, and industry cooperation in new energy and technology-related fields.
-        </p>
+          I work as a <span class="hero-highlight">Director</span> coordinating cross-border collaboration
+          between Korea and China, focusing on communication, project structure, and industry cooperation
+          in new energy and technology-related fields.
+        </p >
 
         <p class="hero-text">
-          My academic background spans <strong>Automation</strong> and <strong>Nano-Optoelectronics</strong>,
-          allowing me to understand both engineering fundamentals and high-level project strategy.
-        </p>
+          My academic background spans <strong>Automation</strong> and
+          <strong>Nano-Optoelectronics</strong>, which helps me connect engineering fundamentals with
+          real-world business and long-term industry directions.
+        </p >
 
         <div class="hero-actions">
-          <a href="#contact" class="btn-primary">Contact Me</a>
-          <a href="#journey" class="btn-ghost">View Academic Journey</a>
+          <a href="#contact" class="btn-primary">
+            Contact Me
+          </a >
+          <a href="#journey" class="btn-ghost">
+            View Academic Journey
+          </a >
         </div>
       </div>
 
       <aside class="card">
-        <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.8rem; color:var(--accent-strong);">
-          Snapshot
-        </div>
-
-        <div class="hero-card-row"><strong>Role:</strong> Director</div>
-        <div class="hero-card-row"><strong>Base:</strong> Seoul, Korea</div>
-        <div class="hero-card-row"><strong>Fields:</strong> Energy · Tech</div>
-        <div class="hero-card-row"><strong>Languages:</strong> CN / KR / EN</div>
+        <div class="card-title">Snapshot</div>
+        <div class="card-row"><strong>Role</strong> Director</div>
+        <div class="card-row"><strong>Location</strong> Seoul, Korea</div>
+        <div class="card-row"><strong>Fields</strong> Energy · Tech</div>
+        <div class="card-row"><strong>Languages</strong> Chinese · Korean · English</div>
       </aside>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section id="about">
+  <section id="about" class="animate-on-scroll">
     <div class="section-card">
       <h2 class="section-title">About Me</h2>
       <p class="section-subtitle">
-        Connecting engineering foundations with real-world execution and international cooperation.
-      </p>
+        Connecting engineering foundations, cross-border communication, and real industry execution.
+      </p >
 
       <p class="hero-text">
-        I focus on clear communication, structured project management, and cross-border collaboration 
-        in new energy and technology sectors. My work often involves aligning Korean and Chinese 
-        partners, supporting certification and documentation processes, and ensuring smooth 
-        progress of multi-party industrial projects.
-      </p>
+        I focus on clear communication, structured project management, and collaboration between
+        Korean and Chinese partners. My work often involves coordinating new energy and technology-related
+        projects, supporting certification and documentation processes, and keeping multi-party cooperation
+        organized and transparent.
+      </p >
 
       <p class="hero-text">
-        With an engineering foundation in <strong>Automation</strong> and ongoing studies in 
-        <strong>Nano-Optoelectronics</strong>, I bridge technical understanding with practical industry needs.
-      </p>
+        Rather than emphasizing specific technical details, my role centers on helping teams understand
+        each other, align expectations, and move projects steadily forward.
+      </p >
     </div>
   </section>
 
-  <!-- ACADEMIC JOURNEY -->
-  <section id="journey">
+  <!-- ACADEMIC -->
+  <section id="journey" class="animate-on-scroll">
     <div class="section-card">
       <h2 class="section-title">Academic Journey</h2>
-      <p class="section-subtitle">Engineering roots strengthened with next-generation technology studies.</p>
+      <p class="section-subtitle">
+        Engineering roots with a next-generation technology focus.
+      </p >
 
       <div class="two-column">
         <div>
           <div class="edu-item">
-            <div class="contact-label" style="font-size:1.1rem;">Hanyang University · 한양대</div>
-            <p class="hero-text">M.S. in Nano-Optoelectronics (2025 – Present)</p>
+            <div class="edu-title">Hanyang University · 한양대학교</div>
+            <div class="edu-meta">M.S. in Nano-Optoelectronics</div>
+            <div class="edu-meta">2025 – Present</div>
+            <span class="edu-tag">Graduate Studies · Korea</span>
           </div>
 
           <div class="edu-item">
-            <div class="contact-label" style="font-size:1.1rem;">Jiangsu University · 江苏大学</div>
-            <p class="hero-text">B.Eng in Automation (2019 – 2023)</p>
+            <div class="edu-title">Jiangsu University · 江苏大学</div>
+            <div class="edu-meta">School of Electrical & Information Engineering</div>
+            <div class="edu-meta">Major: Automation</div>
+            <div class="edu-meta">2019 – 2023</div>
+            <span class="edu-tag">Bachelor of Engineering · China</span>
           </div>
         </div>
 
         <div>
           <ul class="list-dot">
-            <li>Foundation in electronics, automation, and engineering analysis.</li>
-            <li>Growing focus on semiconductor and optoelectronic device principles.</li>
-            <li>Interest in linking technical insight with industry execution.</li>
+            <li>Solid foundation in automation, electronics, and control systems.</li>
+            <li>Growing interest in semiconductor and optoelectronic device principles.</li>
+            <li>Combining academic studies with real-world project experience in Korea.</li>
           </ul>
         </div>
       </div>
@@ -364,24 +515,26 @@
   </section>
 
   <!-- WORK -->
-  <section id="work">
+  <section id="work" class="animate-on-scroll">
     <div class="section-card">
       <h2 class="section-title">Work Focus</h2>
-      <p class="section-subtitle">Clear structure · Professional communication · Cross-border execution</p>
+      <p class="section-subtitle">
+        Clear structure · Professional communication · Cross-border execution.
+      </p >
 
       <div class="two-column">
         <div>
           <ul class="list-dot">
             <li>Coordinating cooperation between Korean and Chinese enterprises.</li>
-            <li>Supporting certification-related workflows and project documentation.</li>
-            <li>Simplifying technical concepts for business and engineering alignment.</li>
+            <li>Supporting project workflows and documentation in new energy fields.</li>
+            <li>Making technical topics easier to discuss among non-technical stakeholders.</li>
           </ul>
         </div>
         <div>
           <ul class="list-dot">
-            <li>Experience in new energy-related business development.</li>
-            <li>Developing clear communication frameworks for multi-party teams.</li>
-            <li>Long-term interest in energy, semiconductors, and emerging industries.</li>
+            <li>Developing mid- to long-term insight into energy and technology industries.</li>
+            <li>Helping teams from different backgrounds build shared direction.</li>
+            <li>Balancing technical understanding with business and strategic thinking.</li>
           </ul>
         </div>
       </div>
@@ -389,30 +542,66 @@
   </section>
 
   <!-- CONTACT -->
-  <section id="contact">
+  <section id="contact" class="animate-on-scroll">
     <div class="section-card">
       <h2 class="section-title">Contact</h2>
-      <p class="section-subtitle">Available for collaboration and discussion.</p>
+      <p class="section-subtitle">
+        Feel free to reach out for collaboration, discussion, or future opportunities.
+      </p >
 
       <div class="contact-grid">
         <div>
-          <p><span class="contact-label">Email:</span> <a href="mailto:zhangjunhe029@gmail.com">zhangjunhe029@gmail.com</a></p>
-          <p><span class="contact-label">Phone (KR):</span> +82 010-2165-5870</p>
-          <p><span class="contact-label">Phone (CN):</span> +86 184-0433-6668</p>
+          <p class="contact-line">
+            <span class="contact-label">Email:</span>
+            <a href="mailto:zhangjunhe029@gmail.com">zhangjunhe029@gmail.com</a >
+          </p >
+          <p class="contact-line">
+            <span class="contact-label">Phone (KR):</span>
+            +82 010-2165-5870
+          </p >
+          <p class="contact-line">
+            <span class="contact-label">Phone (CN):</span>
+            +86 184-0433-6668
+          </p >
         </div>
-
         <div>
-          <p><span class="contact-label">Location:</span> Seoul, Korea</p>
-          <p><span class="contact-label">WeChat:</span> your-wechat-id</p>
+          <p class="contact-line">
+            <span class="contact-label">Location:</span>
+            Seoul, Korea
+          </p >
+          <p class="contact-line">
+            <span class="contact-label">WeChat:</span>
+            your-wechat-id
+          </p >
         </div>
       </div>
     </div>
   </section>
 
-<footer>
-  © 2025 Junhe Zhang · 장준혁 · 张峻赫. All rights reserved.
-</footer>
-
+  <footer class="animate-on-scroll">
+    © 2025 Junhe Zhang · 장준혁 · 张峻赫. All rights reserved.
+  </footer>
 </main>
+
+<script>
+  // 简单的滚动动画：section 出现在视口时添加 visible 类
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // 只执行一次
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.18 }
+  );
+
+  document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+    observer.observe(el);
+  });
+</script>
+
 </body>
 </html>
